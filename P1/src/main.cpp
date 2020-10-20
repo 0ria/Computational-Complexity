@@ -8,6 +8,7 @@
 int main(int argc, char* argv[]) {
   std::ifstream f_in;
   std::ofstream f_out;
+  std::string inputString;
   std::vector<std::string> noCommentsInput;
 
   if (argc == 1) {
@@ -25,13 +26,15 @@ int main(int argc, char* argv[]) {
 
       FSA Automata(noCommentsInput);
 
-      /*
-      for (auto it : noCommentsInput) {
-      std::cout << it << std::endl;
-      }
-      */
-
       f_in.close();
+
+      std::cout << "Introduzca una cadena para comprobar: ";
+      std::cin >> inputString;
+
+      if (Automata.simulate(inputString))
+        std::cout << "La cadena es aceptada";
+      else
+        std::cout << "La cadena no se acepta";
     }
   }
 }

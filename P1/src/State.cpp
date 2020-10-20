@@ -1,7 +1,17 @@
 #include "../include/State.h"
 
-state::state(/* args */) {
+State::State(/* args */) :
+stateName("@"),
+isInitial(0),
+isFinal(0) {
 }
 
-state::~state() {
+State::~State() {
+}
+
+State::State(std::string name) :
+stateName(name),
+isInitial(0),
+isFinal(0) {
+
 }

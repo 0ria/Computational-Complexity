@@ -1,10 +1,19 @@
+#pragma once
 #include <string>
+#include <vector>
+#include <sstream>
+#include <iostream>
 
-class transition
-{
+class Transition {
 private:
-  /* data */
+  std::string actualState;
+  std::string actualSymbol;
+  std::string actualStackSymbol;
+  std::string nextState;
+  std::vector<char> newSymbolsToStack;
 public:
-  transition(/* args */);
-  ~transition();
+  Transition(/* args */);
+  Transition(std::string);
+  ~Transition();
+  void printTransition(void);
 };

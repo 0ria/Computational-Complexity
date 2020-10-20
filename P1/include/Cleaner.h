@@ -10,6 +10,7 @@
  *  This class cleans the comments off from the input file and returns a vector of strings with the clean data
  * 
  */
+#pragma once
 #include <fstream>
 #include <string>
 #include <vector>
