@@ -2,6 +2,7 @@
 
 Alphabet::Alphabet(/* args */)
 {
+  symbols.insert('.');
 }
 
 Alphabet::~Alphabet()

@@ -31,10 +31,12 @@ int main(int argc, char* argv[]) {
       std::cout << "Introduzca una cadena para comprobar: ";
       std::cin >> inputString;
 
-      if (Automata.simulate(inputString))
-        std::cout << "La cadena es aceptada";
+
+      State initialState = Automata.getInitialState();
+      if (Automata.simulate(inputString, initialState, 0))
+        std::cout << "La cadena es aceptada\n";
       else
-        std::cout << "La cadena no se acepta";
+        std::cout << "La cadena no se acepta\n";
     }
   }
 }

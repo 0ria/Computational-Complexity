@@ -1,5 +1,4 @@
 #pragma once
-#include "Transition.h"
 #include "State.h"
 #include "Alphabet.h"
 #include "vector"
@@ -15,6 +14,7 @@ private:
   std::set<State> finalStates;
   std::stack<char> symStack;             
   char initSymbStack; 
+  //State initialState = getInitialState();
 
   Alphabet automAlphabet;
   Alphabet stackAlphabet;
@@ -27,7 +27,10 @@ public:
   ~FSA();
   void modifyState(std::string, bool);
   void insertOnStack(std::string);
+  void insertTransitionOnState(Transition&);
   void showStats(void);
   State getInitialState();
-  bool simulate(std::string);
+  bool simulate(std::string, State, int);
+  bool isTransitionValid(Transition, char);
+  void insertElementsOnStack(std::vector<char>);
 };

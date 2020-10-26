@@ -60,20 +60,31 @@ FSA::FSA(std::vector<std::string> autoamataData) {
   autoamataData.erase(autoamataData.begin());
   for (int i = 0; i < autoamataData.size(); i++) {
     Transition newTransition(autoamataData[i]);
-    transitionVector.push_back(newTransition);
+    insertTransitionOnState(newTransition);
   }
 
 
   showStats();
 }
 
+void FSA::insertTransitionOnState(Transition& trans) {
+  for (State it : allStates) {
+    if (it.getStateName() == trans.getActualState()) {
+      State newInsert = it;
+      newInsert.setNewTransition(trans);
+      allStates.erase(it);
+      allStates.insert(newInsert);
+    }
+  }
+}
+
 FSA::~FSA() {
 
 }
 
-void FSA::modifyState(std::string initialState, bool initial) {
+void FSA::modifyState(std::string chosenState, bool initial) {
   std::set<State>::iterator it;
-  it = allStates.find(initialState);
+  it = allStates.find(chosenState);
   auto newInsert = *it;
   if (initial)
     newInsert.setToInitial();
@@ -95,17 +106,20 @@ void FSA::showStats(void) {
   for (auto it : allStates) {
     std::cout << it.getStateName() << ": " << std::endl;
     std::cout << "Initial: " << it.isStateInitial() << std::endl;
-    std::cout << "Final: " << it.isStateFinal() << std::endl;
+    std::cout << "Final: " << it.isStateFinal() << std::endl << std::endl;
+    std::cout << "Transitions: " << std::endl;
+    it.printEveryTransition();
+    std::cout << std::endl;
   }
   std::cout << "Automata's Alphabet: ";
   automAlphabet.printAlphabet();
   std::cout << "Stack's Alphabet: ";
   stackAlphabet.printAlphabet();
   std::cout << "Current stack size + top element: " << symStack.size() << " : " << symStack.top() << std::endl;
-
+/*
   for (auto it : transitionVector) {
     it.printTransition();
-  }
+  }*/
 }
 
 State FSA::getInitialState(void) {
@@ -115,12 +129,35 @@ State FSA::getInitialState(void) {
   }
 }
 
-bool FSA::simulate(std::string input) {
-  State currentState = getInitialState();
-  for (char& c : input) {
-    if (automAlphabet.isSymbolOnAlphabet(c)) {
+bool FSA::isTransitionValid(Transition tr, char actualChar) {
+  if (tr.getActualSymbol() == actualChar && tr.getactualStackSymbol() == symStack.top()) {
+    return true;
+  }
+  return false;
+}
 
+void FSA::insertElementsOnStack(std::vector<char> newSyms) {
+  for (int i = newSyms.size() - 1; i >= 0; i--) {
+    std::cout << newSyms[i] << std::endl;
+    if (stackAlphabet.isSymbolOnAlphabet(newSyms[i]))
+      symStack.push(newSyms[i]);
+    else
+      std::cout << "No debería llegar aquí\n";    
+  }
+}
+
+bool FSA::simulate(std::string input, State actualState, int counter) {
+  if (input[counter] == '\0' && actualState.isStateFinal())
+    return true;
+  auto newActualState = *allStates.find(actualState);
+  for (Transition tr : newActualState.getTransitions()) {
+    if (isTransitionValid(tr, input[counter])) {
+      std::cout << "llego\n";
+      symStack.pop();
+      insertElementsOnStack(tr.getNewStackSymbols());
+      simulate(input, tr.getNextState(), counter += 1);
+      //return false;
     }
   }
-  return true;
+  return false;
 }

@@ -15,3 +15,8 @@ isInitial(0),
 isFinal(0) {
 
 }
+
+void State::printEveryTransition(void) {
+  for (auto it : everyStateTransitions)
+    it.printTransition();
+}
