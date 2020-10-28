@@ -2,7 +2,7 @@
 
 Alphabet::Alphabet(/* args */)
 {
-  symbols.insert('.');
+  //symbols.insert('.');
 }
 
 Alphabet::~Alphabet()

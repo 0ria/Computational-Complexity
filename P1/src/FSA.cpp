@@ -1,11 +1,12 @@
 #include "../include/FSA.h"
 
-FSA::FSA(/* args */) {
-
+FSA::FSA(/* args */)
+{
 }
 
-FSA::FSA(std::vector<std::string> autoamataData) {
-   std::cout << "Datos en el vector de string: " << std::endl;
+FSA::FSA(std::vector<std::string> autoamataData)
+{
+  std::cout << "Datos en el vector de string: " << std::endl;
   for (auto it : autoamataData)
     std::cout << it << std::endl;
   std::cout << "********************" << std::endl;
@@ -13,7 +14,8 @@ FSA::FSA(std::vector<std::string> autoamataData) {
   std::string auxString = "";
   char auxChar;
   std::istringstream iss(autoamataData[0]);
-  while (iss) {
+  while (iss)
+  {
     iss >> auxString;
     State newState(auxString);
     allStates.insert(newState);
@@ -24,7 +26,8 @@ FSA::FSA(std::vector<std::string> autoamataData) {
   iss.clear();
   iss.str(autoamataData[0]);
 
-  while (iss) {
+  while (iss)
+  {
     iss >> auxChar;
     automAlphabet.newSymbol(auxChar);
   }
@@ -34,7 +37,8 @@ FSA::FSA(std::vector<std::string> autoamataData) {
   iss.clear();
   iss.str(autoamataData[0]);
 
-  while (iss) {
+  while (iss)
+  {
     iss >> auxChar;
     stackAlphabet.newSymbol(auxChar);
   }
@@ -52,24 +56,28 @@ FSA::FSA(std::vector<std::string> autoamataData) {
   iss.str("");
   iss.clear();
   iss.str(autoamataData[0]);
-  while (iss) {
+  while (iss)
+  {
     iss >> auxString;
     modifyState(auxString, FINAL);
   }
 
   autoamataData.erase(autoamataData.begin());
-  for (int i = 0; i < autoamataData.size(); i++) {
+  for (int i = 0; i < autoamataData.size(); i++)
+  {
     Transition newTransition(autoamataData[i]);
     insertTransitionOnState(newTransition);
   }
 
-
   showStats();
 }
 
-void FSA::insertTransitionOnState(Transition& trans) {
-  for (State it : allStates) {
-    if (it.getStateName() == trans.getActualState()) {
+void FSA::insertTransitionOnState(Transition &trans)
+{
+  for (State it : allStates)
+  {
+    if (it.getStateName() == trans.getActualState())
+    {
       State newInsert = it;
       newInsert.setNewTransition(trans);
       allStates.erase(it);
@@ -78,14 +86,15 @@ void FSA::insertTransitionOnState(Transition& trans) {
   }
 }
 
-FSA::~FSA() {
-
+FSA::~FSA()
+{
 }
 
-void FSA::modifyState(std::string chosenState, bool initial) {
+void FSA::modifyState(std::string chosenState, bool initial)
+{
   std::set<State>::iterator it;
   it = allStates.find(chosenState);
-  auto newInsert = *it;
+  State newInsert = *it;
   if (initial)
     newInsert.setToInitial();
   else
@@ -94,19 +103,24 @@ void FSA::modifyState(std::string chosenState, bool initial) {
   allStates.insert(newInsert);
 }
 
-void FSA::insertOnStack(std::string stackSymbol) {
-  if (stackAlphabet.isSymbolOnAlphabet(stackSymbol[0])) {
+void FSA::insertOnStack(std::string stackSymbol)
+{
+  if (stackAlphabet.isSymbolOnAlphabet(stackSymbol[0]))
+  {
     symStack.push(stackSymbol[0]);
   }
-  else 
+  else
     std::cout << "The symbol is not on the stack Alphabet" << std::endl;
 }
 
-void FSA::showStats(void) {
-  for (auto it : allStates) {
+void FSA::showStats(void)
+{
+  for (auto it : allStates)
+  {
     std::cout << it.getStateName() << ": " << std::endl;
     std::cout << "Initial: " << it.isStateInitial() << std::endl;
-    std::cout << "Final: " << it.isStateFinal() << std::endl << std::endl;
+    std::cout << "Final: " << it.isStateFinal() << std::endl
+              << std::endl;
     std::cout << "Transitions: " << std::endl;
     it.printEveryTransition();
     std::cout << std::endl;
@@ -116,47 +130,67 @@ void FSA::showStats(void) {
   std::cout << "Stack's Alphabet: ";
   stackAlphabet.printAlphabet();
   std::cout << "Current stack size + top element: " << symStack.size() << " : " << symStack.top() << std::endl;
-/*
+  /*
   for (auto it : transitionVector) {
     it.printTransition();
   }*/
 }
 
-State FSA::getInitialState(void) {
-  for (State it : allStates) {
+State FSA::getInitialState(void)
+{
+  for (State it : allStates)
+  {
     if (it.isStateInitial())
       return it;
   }
+  return State();
 }
 
-bool FSA::isTransitionValid(Transition tr, char actualChar) {
-  if (tr.getActualSymbol() == actualChar && tr.getactualStackSymbol() == symStack.top()) {
+bool FSA::isTransitionValid(Transition tr, char actualChar)
+{
+  if ((tr.getActualSymbol() == actualChar || tr.getActualSymbol() == '.') && tr.getactualStackSymbol() == symStack.top())
+  {
     return true;
+  }
+  else if (actualChar == '\0')
+  {
+    actualChar = '.';
+    if (tr.getActualSymbol() == actualChar && tr.getactualStackSymbol() == symStack.top())
+      return true;
+    else
+      return false;
   }
   return false;
 }
 
-void FSA::insertElementsOnStack(std::vector<char> newSyms) {
-  for (int i = newSyms.size() - 1; i >= 0; i--) {
-    std::cout << newSyms[i] << std::endl;
+void FSA::insertElementsOnStack(std::vector<char> newSyms)
+{
+  for (int i = newSyms.size() - 1; i >= 0; i--)
+  {
     if (stackAlphabet.isSymbolOnAlphabet(newSyms[i]))
       symStack.push(newSyms[i]);
     else
-      std::cout << "No debería llegar aquí\n";    
+      std::cout << ". en pila\n";
   }
 }
 
-bool FSA::simulate(std::string input, State actualState, int counter) {
-  if (input[counter] == '\0' && actualState.isStateFinal())
+bool FSA::simulate(std::string input, State actualState, int counter)
+{
+  std::stack<char> auxStack(symStack);
+  if (counter >= input.size() && actualState.isStateFinal())
     return true;
   auto newActualState = *allStates.find(actualState);
-  for (Transition tr : newActualState.getTransitions()) {
-    if (isTransitionValid(tr, input[counter])) {
-      std::cout << "llego\n";
+  for (Transition tr : newActualState.getTransitions())
+  {
+    if (isTransitionValid(tr, input[counter]))
+    {
       symStack.pop();
       insertElementsOnStack(tr.getNewStackSymbols());
-      simulate(input, tr.getNextState(), counter += 1);
-      //return false;
+      State nextState = *allStates.find(tr.getNextState());
+      if (simulate(input, nextState, tr.getActualSymbol() == '.' ? counter : counter + 1))
+        return true;
+      else 
+        symStack = auxStack;
     }
   }
   return false;

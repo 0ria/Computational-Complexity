@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/main",
-      "args": ["${workspaceFolder}/files/APf.txt"],
+      "args": ["${workspaceFolder}/files/APf-3.txt"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],

@@ -1,0 +1,15 @@
+# Autómata de Pila con estados finales para reconocer etc etc
+# L ...
+# si si mucho texto
+p q r
+a b
+S A
+p
+S
+r
+p a S p A S
+p a A p A A
+p b A q .
+p . S r S
+q b A q .
+q . S r S

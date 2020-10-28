@@ -5,7 +5,6 @@
 const bool INITIAL = true;
 const bool FINAL = false;
 
-
 class State {
  private:
   std::string stateName;
