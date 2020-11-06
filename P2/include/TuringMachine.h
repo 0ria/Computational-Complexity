@@ -1,6 +1,7 @@
 #pragma once
-#include "../include/Alphabet.h"
-#include "../include/State.h"
+#include "Alphabet.h"
+#include "State.h"
+#include "Tape.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -9,17 +10,20 @@
 class TuringMachine {
  private:
   std::set<State> allStates;
-  //Tape machineTape;
+  Tape machineTape;
   Alphabet machineAlphabet;
   Alphabet tapeAlphabet;
   char whiteSymbol;
 
+  std::vector<Transition> transitionVector;
+
  public:
   TuringMachine(/* args */);
   TuringMachine(std::vector<std::string>);
+  ~TuringMachine();
   void setWhiteSymbol(std::string);
   void modifyState(std::string, bool);
   void showStats(void);
-
-  ~TuringMachine();
+  void insertTransitionOnState(Transition);
+  inline void newTape(std::string tapeInput) { machineTape.setTape(tapeInput, whiteSymbol); };
 };

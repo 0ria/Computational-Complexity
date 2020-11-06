@@ -50,17 +50,28 @@ TuringMachine::TuringMachine(std::vector<std::string> tmData) {
     iss >> auxString;
     modifyState(auxString, FINAL);
   }
-  /*
-  autoamataData.erase(autoamataData.begin());
-  for (int i = 0; i < autoamataData.size(); i++)
+  
+  tmData.erase(tmData.begin());
+  for (int i = 0; i < tmData.size(); i++)
   {
-    Transition newTransition(autoamataData[i]);
+    Transition newTransition(tmData[i]);
     insertTransitionOnState(newTransition);
-  }*/
-  showStats();
+  }
 }
 
 TuringMachine::~TuringMachine() {}
+
+void TuringMachine::insertTransitionOnState(Transition newTrans) {
+  for (State st : allStates) {
+    if (st.getStateName() == newTrans.getActualState()) {
+      State newInsert = st;
+      newInsert.setNewTransition(newTrans);
+      allStates.erase(st);
+      allStates.insert(newInsert);
+    }
+  }
+}
+
 
 void TuringMachine::modifyState(std::string chosenState, bool initial) {
   std::set<State>::iterator it;
@@ -86,12 +97,16 @@ void TuringMachine::showStats(void) {
     std::cout << it.getStateName() << ": " << std::endl;
     std::cout << "Initial: " << it.isStateInitial() << std::endl;
     std::cout << "Final: " << it.isStateFinal() << std::endl << std::endl;
-    //std::cout << "Transitions: " << std::endl;
-    //it.printEveryTransition();
+    std::cout << "Transitions: " << std::endl;
+    it.printEveryTransition();
     std::cout << std::endl;
   }
   std::cout << "Machine's Alphabet: ";
   machineAlphabet.printAlphabet();
   std::cout << "Tape's Alphabet: ";
   tapeAlphabet.printAlphabet();
+
+  std::cout << "Tape: ";
+  machineTape.showTape();
+  std::cout << std::endl;
 }

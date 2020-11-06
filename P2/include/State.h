@@ -1,5 +1,5 @@
 #pragma once
-//#include "Transition.h"
+#include "Transition.h"
 #include <string>
 
 const bool INITIAL = true;
@@ -10,7 +10,7 @@ class State {
   std::string stateName;
   bool isInitial;
   bool isFinal;
-  //std::vector<Transition> everyStateTransitions;
+  std::vector<Transition> everyStateTransitions;
 
  public:
   State(/* args */);
@@ -22,8 +22,8 @@ class State {
   inline bool isStateInitial(void) { return isInitial; };
   inline bool isStateFinal(void) { return isFinal; };
   inline std::string getStateName() { return stateName; };
-  //inline void setNewTransition(Transition& trans) { everyStateTransitions.push_back(trans); };
-  //inline std::vector<Transition> getTransitions(void) { return everyStateTransitions; };
+  inline void setNewTransition(Transition& trans) { everyStateTransitions.push_back(trans); };
+  inline std::vector<Transition> getTransitions(void) { return everyStateTransitions; };
   void printEveryTransition(void);
   inline bool operator<(const State& st) const {
     return stateName < st.stateName;

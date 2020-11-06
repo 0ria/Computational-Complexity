@@ -22,5 +22,10 @@ int main(int argc, char* argv[]) {
     noCommentsInput = cleanData.clean();
 
     TuringMachine mt(noCommentsInput);
+
+    std::cout << "Introduzca una cadena para procesar: ";
+    std::cin >> inputString;
+    mt.newTape(inputString);
+    mt.showStats();
   }
 }

@@ -7,7 +7,7 @@ ODIR=../src
 
 LIBS=-lm
 
-_OBJ = main.o Cleaner.o TuringMachine.o Alphabet.o State.o
+_OBJ = main.o Cleaner.o TuringMachine.o Alphabet.o Transition.o Tape.o State.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 all: main
