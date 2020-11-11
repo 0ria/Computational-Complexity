@@ -50,10 +50,9 @@ TuringMachine::TuringMachine(std::vector<std::string> tmData) {
     iss >> auxString;
     modifyState(auxString, FINAL);
   }
-  
+
   tmData.erase(tmData.begin());
-  for (int i = 0; i < tmData.size(); i++)
-  {
+  for (int i = 0; i < tmData.size(); i++) {
     Transition newTransition(tmData[i]);
     insertTransitionOnState(newTransition);
   }
@@ -71,7 +70,6 @@ void TuringMachine::insertTransitionOnState(Transition newTrans) {
     }
   }
 }
-
 
 void TuringMachine::modifyState(std::string chosenState, bool initial) {
   std::set<State>::iterator it;
@@ -92,6 +90,13 @@ void TuringMachine::setWhiteSymbol(std::string symbol) {
     std::cout << "This white symbol is not on the tape Alphabet" << std::endl;
 }
 
+State TuringMachine::getInitialState(void) {
+  for (State st : allStates)
+    if (st.isStateInitial())
+      return st;
+  return State();
+}
+
 void TuringMachine::showStats(void) {
   for (auto it : allStates) {
     std::cout << it.getStateName() << ": " << std::endl;
@@ -109,4 +114,31 @@ void TuringMachine::showStats(void) {
   std::cout << "Tape: ";
   machineTape.showTape();
   std::cout << std::endl;
+}
+
+bool TuringMachine::isTransitionValid(Transition tr, char actualChar) {
+  if (tr.getActualSymbol() == actualChar)
+    return true;
+  else
+    return false;  // HABRÁ QUE CAMBIAR ESTO PROBABLEMENTE
+}
+
+bool TuringMachine::simulate(State actualState, int counter) {
+  Tape auxTape(machineTape.getTape());
+  if (counter >= machineTape.getStringTape().size() &&
+      actualState.isStateFinal())
+    return true;
+  auto newAcuatlState = *allStates.find(actualState);
+  for (Transition tr : newAcuatlState.getTransitions()) {
+    if (isTransitionValid(tr, machineTape.getElement(counter))) {
+      machineTape.setElement(counter, tr.getNextSymbol()); // MIRAR PARA SETEAR LAS R O LAS L DEL INPUT DE LA MT
+      State nextState = *allStates.find(tr.getNextState());
+      if (simulate(nextState,
+                   tr.getActualSymbol() == '.' ? counter : counter + 1))
+        return true;
+      else
+        machineTape = auxTape;
+    }
+  }
+  return false;
 }

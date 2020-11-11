@@ -2,6 +2,11 @@
 
 Tape::Tape(/* args */) {}
 
+Tape::Tape(std::vector<char> copyTape) :
+tapeVector(copyTape) {
+
+}
+
 Tape::~Tape() {}
 
 void Tape::setTape(std::string input, char whiteSymbol) {
@@ -17,3 +22,9 @@ void Tape::showTape(void) {
   std::cout << std::endl;
 }
 
+std::string Tape::getStringTape(void) {
+  std::string aux = "";
+  for (auto it : tapeVector)
+    aux += it;
+  return aux;
+}

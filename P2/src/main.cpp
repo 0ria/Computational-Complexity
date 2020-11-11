@@ -27,5 +27,10 @@ int main(int argc, char* argv[]) {
     std::cin >> inputString;
     mt.newTape(inputString);
     mt.showStats();
+    State initialState = mt.getInitialState();
+    if (mt.simulate(initialState, 1))
+      std::cout << "La cadena se acepta" << std::endl;
+    else
+      std::cout << "La cadena no se acepta" << std::endl;
   }
 }
