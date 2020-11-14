@@ -15,5 +15,5 @@ class Tape {
   std::string getStringTape(void);
   inline std::vector<char> getTape(void) { return tapeVector; };
   inline char getElement(int pos) { return tapeVector[pos]; };
-  inline void setElement(int pos, char newChar) { tapeVector[pos] == newChar; };
+  inline void setElement(int pos, char newChar) { tapeVector[pos] = newChar; };
 };

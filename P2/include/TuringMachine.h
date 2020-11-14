@@ -28,5 +28,6 @@ class TuringMachine {
   bool simulate(State actualState, int counter);
   bool isTransitionValid(Transition, char);
   State getInitialState(void);
+  int iterateCounter(Transition, int);
   inline void newTape(std::string tapeInput) { machineTape.setTape(tapeInput, whiteSymbol); };
 };

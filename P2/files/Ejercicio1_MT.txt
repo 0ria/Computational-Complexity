@@ -1,0 +1,19 @@
+# Ejemplo de una MT
+# Reconoce cadenas de a y b que constan de un número de a mayor que 1 seguido 
+# de un número de b mayor que de a.
+#  {a^nb^m | n > 0, m > n}
+q0 q1 q2 q3 q4
+a b
+a b .
+q0
+.
+q4
+q0 a q1 . R
+q0 b q4 b S
+q1 a q1 a R
+q1 b q1 b R
+q1 . q2 . L
+q2 b q3 . L
+q3 a q3 a L
+q3 b q3 b L
+q3 . q0 . R

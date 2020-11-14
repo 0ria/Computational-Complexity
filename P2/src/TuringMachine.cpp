@@ -92,8 +92,7 @@ void TuringMachine::setWhiteSymbol(std::string symbol) {
 
 State TuringMachine::getInitialState(void) {
   for (State st : allStates)
-    if (st.isStateInitial())
-      return st;
+    if (st.isStateInitial()) return st;
   return State();
 }
 
@@ -120,25 +119,33 @@ bool TuringMachine::isTransitionValid(Transition tr, char actualChar) {
   if (tr.getActualSymbol() == actualChar)
     return true;
   else
-    return false;  // HABRÁ QUE CAMBIAR ESTO PROBABLEMENTE
+    return false;
+}
+
+int TuringMachine::iterateCounter(Transition tr, int counter) {
+  tr.getMove() == 'R' ? counter++
+                      : tr.getMove() == 'L' ? counter-- : counter;
+  return counter;
 }
 
 bool TuringMachine::simulate(State actualState, int counter) {
-  Tape auxTape(machineTape.getTape());
-  if (counter >= machineTape.getStringTape().size() &&
-      actualState.isStateFinal())
-    return true;
-  auto newAcuatlState = *allStates.find(actualState);
-  for (Transition tr : newAcuatlState.getTransitions()) {
-    if (isTransitionValid(tr, machineTape.getElement(counter))) {
-      machineTape.setElement(counter, tr.getNextSymbol()); // MIRAR PARA SETEAR LAS R O LAS L DEL INPUT DE LA MT
-      State nextState = *allStates.find(tr.getNextState());
-      if (simulate(nextState,
-                   tr.getActualSymbol() == '.' ? counter : counter + 1))
-        return true;
-      else
-        machineTape = auxTape;
+  bool stopCondition = false;
+  bool foundTransition = false;
+  while (stopCondition != true) {
+    for (Transition tr : actualState.getTransitions()) {
+      if (isTransitionValid(tr, machineTape.getElement(counter))) {
+        foundTransition = true;
+        machineTape.setElement(counter, tr.getNextSymbol());
+        counter = iterateCounter(tr, counter);
+        actualState = *allStates.find(tr.getNextState());
+        break;
+      }
     }
+    if (foundTransition != true)
+      stopCondition = true;
+    else foundTransition = false;
   }
-  return false;
+  if (actualState.isStateFinal())
+    return true;
+  else return false;
 }
