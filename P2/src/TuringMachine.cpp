@@ -3,10 +3,6 @@
 TuringMachine::TuringMachine(/* args */) {}
 
 TuringMachine::TuringMachine(std::vector<std::string> tmData) {
-  std::cout << "Datos en el vector de string: " << std::endl;
-  for (auto it : tmData) std::cout << it << std::endl;
-  std::cout << "********************" << std::endl;
-
   std::string auxString = "";
   char auxChar;
   std::istringstream iss(tmData[0]);
@@ -97,6 +93,7 @@ State TuringMachine::getInitialState(void) {
 }
 
 void TuringMachine::showStats(void) {
+  std::cout << "*** MODO TRAZA ***" << std::endl;
   for (auto it : allStates) {
     std::cout << it.getStateName() << ": " << std::endl;
     std::cout << "Initial: " << it.isStateInitial() << std::endl;
@@ -110,7 +107,7 @@ void TuringMachine::showStats(void) {
   std::cout << "Tape's Alphabet: ";
   tapeAlphabet.printAlphabet();
 
-  std::cout << "Tape: ";
+  std::cout << "Initial Tape: ";
   machineTape.showTape();
   std::cout << std::endl;
 }
@@ -145,7 +142,14 @@ bool TuringMachine::simulate(State actualState, int counter) {
       stopCondition = true;
     else foundTransition = false;
   }
-  if (actualState.isStateFinal())
+  if (actualState.isStateFinal()) {
+    std::cout << "Final Tape: ";
+    machineTape.showTape();
     return true;
-  else return false;
+  }
+  else {
+    std::cout << "Final Tape: ";
+    machineTape.showTape();
+    return false;
+  }
 }

@@ -29,8 +29,8 @@ int main(int argc, char* argv[]) {
     mt.showStats();
     State initialState = mt.getInitialState();
     if (mt.simulate(initialState, 1))
-      std::cout << "La cadena se acepta" << std::endl;
+      std::cout << "\nLa cadena se acepta" << std::endl;
     else
-      std::cout << "La cadena no se acepta" << std::endl;
+      std::cout << "\nLa cadena no se acepta" << std::endl;
   }
 }
