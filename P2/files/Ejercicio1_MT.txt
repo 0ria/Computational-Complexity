@@ -1,6 +1,9 @@
 # Ejemplo de una MT
 # Reconoce cadenas de a y b que constan de un número de a mayor que 1 seguido 
 # de un número de b mayor que de a.
+# Funciona de manera que cada vez que encuentra una a la cambia por un punto,
+# va a buscar la útlima b y la cambia por un punto y vuelve a la primera a. 
+# Hasta el momento en el que no quedan a pero si siguen quedando b
 #  {a^nb^m | n > 0, m > n}
 q0 q1 q2 q3 q4
 a b

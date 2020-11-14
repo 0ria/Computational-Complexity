@@ -1,6 +1,11 @@
 # Ejemplo de una MT
 # MT que reciba como parámetro una cadena binaria y elimine los ceros de la 
 # palabra dejando únicamente la secuencia de unos sin espacios en blanco.
+# El funcionamiento es el siguiente, busca el primer 0, cuando lo encuentra lo
+# cambia por un 1 y va derecha hasta encontrar el primer 1 el cual cambia por 0 y
+# vuelve para atrás en busca del primer 1, lo deja tal cual y se posiciona a la
+# derecha. Cuando no quedan mas 1 a la derecha llega al blanco y va hacía la izq
+# poniendo todos los 0 a blancos hasta el primer 1 que encuentre.
 q0 q1 q2 q3 q4
 0 1
 0 1 .
